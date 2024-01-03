@@ -29,7 +29,7 @@ Because of the following advantages of PML, It is so popular and strong in the p
 
 There are some disadvantages as follows,
 1. Threading or parallel Processing/computation is not possible.
-2. It's very slow as PML Runs always in one thread. and PML is slow in comparion with other languages.
+2. As PML Runs always in one thread, It's very slow. PML is slow in comparion with other languages.
 3. PML can't combined with all other languages easily (Except C#.net).
 4. It's limited to AVEVA Only. and Very less documentation is available which can describe the exect behavior of PML.
 
