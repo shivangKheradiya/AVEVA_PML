@@ -193,7 +193,20 @@ Output:
 
 ## 2.6 Extra
 
-### 2.6.1 .METHODS()
+### 2.6.1 .OBJECTTYPE()
+following code can be used to know the object type,
+
+Input:
+```
+!x = position
+q var !x.objecttype()
+```
+Output:
+```
+<STRING> 'POSITION'
+```
+
+### 2.6.2 .METHODS()
 following code can be used to know the methods available within the object
 
 Input:
@@ -234,7 +247,7 @@ Output:
    [28]  <STRING> 'WRT(DBREF)'
 ```
 
-### 2.6.2 ATTRIBUTE()
+### 2.6.3 ATTRIBUTE()
 following code can be used to know more information about attribute.
 
 Input:
@@ -274,7 +287,7 @@ Output:
    [24]  <STRING> 'VALIDVALUES(ELEMENTTYPE)'
 ```
 
-### 2.6.3 .ATTRIBUTES()
+### 2.6.4 .ATTRIBUTES()
 Following code will help to know the all available attributes for any element,
 
 Input:
