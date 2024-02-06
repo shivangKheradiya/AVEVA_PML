@@ -6,19 +6,27 @@ Variable can be declared using following code,
 
 Method 1: PML 1
 
-`var !x 'Tommy'`
+```
+var !x 'Tommy'
+```
 
 Method 2: PML 2
 
-`!x = 'Tommy'`
+```
+!x = 'Tommy'
+```
 
 Declaration of Empty variable
 
-`!x = object string()`
+```
+!x = object string()
+```
 
 To seet the Value of the Variable
 
-`Q var !x`
+```
+Q var !x
+```
 
 ## 2.2 Scope of Variable
 
@@ -26,7 +34,9 @@ To seet the Value of the Variable
 
 It is represented with Single exclaimation symbol ( **!** ) before the variable Name. e.g.
 
-`!x = 'Tommy'`
+```
+!x = 'Tommy'
+```
 
 ### 2.2.2 **Global Variable:** 
 
@@ -57,37 +67,57 @@ var !x 'Tommy'
 
     Declaration: It declares unset/empty variable.
     
-    `!x = object REAL()`
+    ```
+    !x = object REAL()
+    ```
 
     Declaration & Initialization:
 
-    `!x = 5`
+    ```
+    !x = 5
+    ```
 
 2. String:
 
     Declaration: It declares unset/empty variable.
     
-    `!x = object STRING()`
+    ```
+    !x = object STRING()
+    ```
 
     Declaration & Initialization:
 
-    `!x = 'Tommy'`
+    ```
+    !x = 'Tommy'
+    ```
 
 3. Boolean:
 
     Declaration: It declares unset/empty variable.
     
-    `!x = object BOOLEAN()`
+    ```
+    !x = object BOOLEAN()
+    ```
 
     Declaration & Initialization:
 
-    `!x = true`
+    ```
+    !x = true
+    ```
 
-4. Array: It can hold variable of any datatype as an element of array. Multidimentional array defination is also possible. But Having different data types in array and Multidimentional array reduces the performance.
+4. Array: 
+
+    It can hold variable of any datatype as an element of array. 
+    
+    Index of the array starts from one. and array index need not to be in the series.
+    
+    Multidimentional array defination is also possible. But Having different data types in array and Multidimentional array reduces the performance.
 
     Declaration: It declares unset/empty variable.
 
-    `!x = object ARRAY()`
+    ```
+    !x = object ARRAY()
+    ```
 
     Declaration & Initialization:
 

@@ -1,8 +1,10 @@
 # 3. CONDITIONS AND OPERATORS
 
-Run the following command in the command window to test the codes mentioned in the page.
+Run the following command in the command window to test some codes mentioned in the page.
 
-`SHOW !!RUNMACRO`
+```
+SHOW !!RUNMACRO
+```
 
 ## 3.1 Conditions (Iftrue, If, If Else, If ElseIf)
 
