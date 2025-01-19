@@ -100,17 +100,81 @@ AZone Output
 ## 6.2 EVALUATIONS
 
 ### 6.2.1 PML 1
+
+This syntax is valid for only PML 1 Collection Array or Array Contains DbRef as String object.
+
+Syntax
+```
+var !outputArray evaluate <Attribute/ Expression> for ALL <ElementTypes> with <Expression> from <DbRefStringArray> 
+```
+
 Input
 ```
+-- Select Site /SITE-PIPING-AREA01
+var !zone collect all for ce
+-- Evaluating name and position of All Zones within CE
+var !zoneNames evaluate NAME for ALL Zone from !zone 
+
+-- Update zone East position which you wish to see in output e.g. /ZONE-PIPING-AREA01 Position E 5mm N 0mm U 0mm
+var !zonePositions evaluate Position for ALL Zone from !zone
+var !zonePosE2Times evaluate ( position[1] * 2 ) for ALL Zone from !zone 
+var !zonePosE2TimesX evaluate ( position[1] * 2 ) for ALL Zone with Matchwild(name, |*AREA03*|) from !zone 
+q var !zoneNames
+q var !zonePositions
+q var !zonePosE2Times
+q var !zonePosE2TimesX
 ```
+
 Output
 ```
+<ARRAY>
+   [1]  <STRING> '/ZONE-PIPING-AREA01'
+
+<ARRAY>
+   [1]  <STRING> 'E 5mm N 0mm U 0mm'
+
+<ARRAY>
+   [1]  <STRING> '10mm'
+
+<ARRAY> - Unset and Empty
 ```
 
 ### 6.2.2 PML 2
+
+This syntax is valid for only PML 2 Collection Array or Array Contains DbRef objects. And outputArray can be of any object type depending on the expression used in Block Statement.
+
+Syntax
+```
+!block            = object BLOCK(|!collectionArray[!evalIndex].<Attribute/Expression>|) 
+!outputArray      = !collectionArray.evaluate(!block) 
+```
+
 Input
 ```
+!zone             = !!collectAllfor(|ZONE|, ||, !!ce)
+!blockName        = object BLOCK(|!zone[!evalIndex].name|)
+!blockPos         = object BLOCK(|!zone[!evalIndex].Position|)
+!blockPos2        = object BLOCK(|!zone[!evalIndex].Position.east * 2|)
+
+!zoneNames        = !zone.evaluate(!blockName)
+
+-- Update zone East position which you wish to see in output e.g. /ZONE-PIPING-AREA01 Position E 5mm N 0mm U 0mm
+!zonePositions    = !zone.evaluate(!blockPos)
+!zonePosE2Times   = !zone.evaluate(!blockPos2)
+
+q var !zoneNames
+q var !zonePositions
+q var !zonePosE2Times
 ```
+
 Output
 ```
+<ARRAY>
+   [1]  <STRING> '/ZONE-PIPING-AREA01'
+
+<ARRAY>
+   [1]  <POSITION> E 5mm N 0mm U 0mm WRT /SITE-PIPING-AREA01
+
+<ARRAY>
+   [1]  <REAL> 10mm
 ```
