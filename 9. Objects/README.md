@@ -29,7 +29,7 @@ define method .ObjectMethodB()
 endmethod
 ```
 
-Above Syntax basically indicates below points,
+Key points To Remember,
 - FileName should be replaced with the name of the file.
 - File must be stored within `PMLLIB` directory with (`.pmlobj`) extension.
 - FileName Should not contain any space or special Characters.
