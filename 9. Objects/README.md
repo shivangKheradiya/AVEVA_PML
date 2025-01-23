@@ -61,7 +61,7 @@ q var !FileNameObj.ArrayMember
 !FileNameObj.ObjectMethodA()
 ```
 
-Forms, Classes Defined in .Net, AVEVA InBuilt Data Types, System Defined Data Types or Object Types are considered as an object.
+PML Objects, Forms, Classes Defined in .Net, AVEVA InBuilt Data Types, System Defined Data Types or Object Types are considered as a PML object.
 
 Methods To know Object type of the Variable or Object,
 - Whenever any variable is queried using `Q var !varName`, then in the output will be starting like `<ObjecType>`.
