@@ -4,7 +4,9 @@ Instade of using macros, It's always desirable to define the functions.
 
 - Functions are stored typically within `pmllib` directory with `.pmlfnc` Extension.
 
-- Function Name and File name must match.
+- `FunctionName` and File name must match.
+
+- If the function file is not found by the system, To hash/ register the new function, object, form file within AVEVA `pml rehash all` command is used. 
 
 ## 8.1 Functions with No Return Type (Procedures)
 

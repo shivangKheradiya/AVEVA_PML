@@ -8,5 +8,5 @@
 ### 6. [Collections & Evaluations](./6.%20Collections%20&%20Evaluations/README.md)
 ### 7. [Macros & Synonyms](./7.%20Macros%20And%20Synonyms/README.md)
 ### 8. [Functions](./8.%20Functions/README.md)
-### 9. [Objects](./8.%20Functions/README.md)
+### 9. [Objects](./9.%20Objects/README.md)
 ### 10. [Forms](./10.%20Forms/README.md)

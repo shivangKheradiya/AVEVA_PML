@@ -30,13 +30,14 @@ endmethod
 ```
 
 Key points To Remember,
-- FileName should be replaced with the name of the file.
+- `FileName` should be replaced with the name of the file.
 - File must be stored within `PMLLIB` directory with (`.pmlobj`) extension.
-- FileName Should not contain any space or special Characters.
+- `FileName` Should not contain any space or special Characters.
 - Default constructure is a method has name same as name of the file.
 - Object can have more than one methods or No methods.
 - Members described within any Object defination block are also object e.g. StringMember is String object type. Similartly any other custom object can be a member within any Object defination block.
-- Members Can be Accessed within the Objects as well as the location where the Instance of the object is created. 
+- Members Can be Accessed within the Objects as well as the location where the Instance of the object is created.
+- To reload object `pml reload object ObjectName` command is used.
 
 Below is the use case for above described object,
 ```
