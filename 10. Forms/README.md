@@ -109,11 +109,27 @@ Follow below mentioned step to test the form,
 
 ## Gadget Positioning Using Paths
 
-Gadget Path are used using 3 main keywords PATH : Right / Left / Up / Down, HDIST or VDIST : int and HALIGN : Left / Right / Centre or VALIGN : Top/ Bottom / Centre.
+Gadget Path are used with some main keywords 
+ 
+ - PATH : Right / Left / Up / Down
+ - HDIST or VDIST : number
+ - HALIGN : Left / Right / Centre or VALIGN : Top/ Bottom / Centre.
+
 ```
-setup form !!GadGetUsingPath
-    Button .bu1
-    path
+setup form !!GadGetUsingPath resize
+    Button .bu1 width 10 height 2
+    path down
+    vdist 2
+    halign left
+    Button .bu2 width 40 height 2
+    vdist 2
+    halign right
+    Button .bu3 width 20 height 3
+    path right
+    valign bottom
+    hdist 2
+    valign top
+    Button .bu4 width 10 height 4
 exit
 
 -- Constructuor calls when Form Loaded and must match the name of the form or file
@@ -121,4 +137,7 @@ define method .GadGetUsingPath()
     
 endmethod
 ```
+
+## Docking and Anchoring
+
 
