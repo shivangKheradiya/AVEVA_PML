@@ -225,14 +225,14 @@ Text Entry Gadget's Possible Implimentations:
 ```
 setup form !!TextEntryGadget
     !this.formTitle = |Text Entry Gadget Form|
-    text .t1 |Text String| width 50 is string
+    text .t1 |Text String   | width 50 is string
     Halign Left
     path down
-    text .t2 |String| width 50 is string
-    text .t3 |Numbers| width 50 is real format !!realfmt
-    text .t4 |Round Numbers| width 50 is real format !!integerfmt
-    text .t5 |Passwords| width 50 NOE is string
-    text .t6 |Non Editable| width 50 is string
+    text .t2 |String        | width 50 is string
+    text .t3 |Numbers       | width 50 is real format !!realfmt
+    text .t4 |Round Numbers | width 50 is real format !!integerfmt
+    text .t5 |Passwords     | width 50 NOE is string
+    text .t6 |Non Editable  | width 50 is string
 exit
 
 define method .TextEntryGadget()
