@@ -2,7 +2,7 @@
 
 - [Basic Understanding And Syntax](#basic-understanding-and-syntax)
 - [Syntax of Form & Callbacks](#syntax-of-form-&-callbacks)
-- [Gedget Positioning Using Paths](#gedget-positioning-using-paths)
+- [Gadget Positioning Using Paths](#gadget-positioning-using-paths)
 - [Docking and Anchoring](#docking-and-anchoring)
 - [Gadgets Implimentation](#gadgets-implimentation)
     - [TEXTPANE Gadget](#textpane-implimentation)
@@ -107,4 +107,18 @@ Follow below mentioned step to test the form,
 
 *Constructor > Init > FirstShown > Quit > Cancle*
 
-## Gedget Positioning Using Paths
+## Gadget Positioning Using Paths
+
+Gadget Path are used using 3 main keywords PATH : Right / Left / Up / Down, HDIST or VDIST : int and HALIGN : Left / Right / Centre or VALIGN : Top/ Bottom / Centre.
+```
+setup form !!GadGetUsingPath
+    Button .bu1
+    path
+exit
+
+-- Constructuor calls when Form Loaded and must match the name of the form or file
+define method .GadGetUsingPath() 
+    
+endmethod
+```
+
