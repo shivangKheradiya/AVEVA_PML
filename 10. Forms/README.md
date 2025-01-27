@@ -5,9 +5,9 @@
 - [Gadget Positioning Using Paths](#gadget-positioning-using-paths)
 - [Docking and Anchoring](#docking-and-anchoring)
 - [Gadgets Implimentation](#gadgets-implimentation)
-    - [TEXTPANE Gadget](#textpane-implimentation)
-    - [Text Entry Gadget](#text-entry-gadget)
     - [Paragraph Gadget](#paragraph-gadget)
+    - [Textpane Gadget](#textpane-implimentation)
+    - [Text Entry Gadget](#text-entry-gadget)
     - [Button Gadget](#button-gadget)
     - [Radio Gadget](#radio-gadget)
     - [Toggle Gadget](#toggle-gadget)
@@ -151,6 +151,38 @@ setup form !!DockAnchor
         Button .b1 anchor r+b at xmax.l1 - 0.5 - 2 * size  ymax.l1 + 0.25
         Button .b2 anchor r+b at xmax.l1 - size  ymax.l1 + 0.25
     exit
+exit
+
+define method .DockAnchor() 
+    
+endmethod
+```
+
+## Gadgets Implimentation
+
+### Paragraph Gadget
+```
+setup form !!ParagraphGadget
+    !this.formTitle = |Paragraph Gadget Form|
+    para .p1 text |Text Paragraph| width 50
+    Haight Left
+    path down
+    para .p2 background 3 text |Text Paragraph| width 50
+    para .p3 pixmap width 150 height 50
+    para .p4 text || width 50
+exit
+
+define method .DockAnchor() 
+    !this.p4.val = |This Text is set by constructor|
+    !this.p3.addPixmap(|C:\PngFilePath.png|)
+endmethod
+```
+
+### Textpane Gadget
+```
+
+setup form !!TextpaneGadget
+    
 exit
 
 define method .DockAnchor() 
