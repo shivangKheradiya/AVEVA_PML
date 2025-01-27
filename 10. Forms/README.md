@@ -161,6 +161,12 @@ endmethod
 ## Gadgets Implimentation
 
 ### Paragraph Gadget
+
+Paragraph Text Possible Implimentations:
+- Paragraph Text
+- Paragraph with background
+- Image Paragraph (Pixmap)
+
 ```
 setup form !!ParagraphGadget
     !this.formTitle = |Paragraph Gadget Form|
