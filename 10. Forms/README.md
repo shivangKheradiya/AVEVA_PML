@@ -6,9 +6,9 @@
 - [Docking and Anchoring](#docking-and-anchoring)
 - [Gadgets Implimentation](#gadgets-implimentation)
     - [Paragraph Gadget](#paragraph-gadget)
-    - [Textpane Gadget](#textpane-implimentation)
-    - [Text Entry Gadget](#text-entry-gadget)
     - [Button Gadget](#button-gadget)
+    - [Text Entry Gadget](#text-entry-gadget)
+    - [Textpane Gadget](#textpane-implimentation)
     - [Radio Gadget](#radio-gadget)
     - [Toggle Gadget](#toggle-gadget)
     - [Slider Gadget](#slider-gadget)
@@ -162,9 +162,8 @@ endmethod
 
 ### Paragraph Gadget
 
-Paragraph Text Possible Implimentations:
-- Paragraph Text
-- Paragraph with background
+Paragraph Text's Possible Implimentations:
+- Paragraph Text with/ without background
 - Image Paragraph (Pixmap)
 
 ```
@@ -181,6 +180,64 @@ exit
 define method .ParagraphGadget() 
     !this.p4.val = |This Text is set by constructor|
     !this.p3.addPixmap(|C:\PngFilePath.png|)
+endmethod
+```
+
+### Button Gadget
+
+Button's Possible Implimentations:
+- Button with/ without Background
+- Button as LinkLabel
+- Toggle Button with/ without Background
+
+```
+setup form !!ButtonGadget
+    !this.formTitle = |Button Gadget Form|
+    button .b1 |Test Button 1| width 50
+    Halign Left
+    path down
+    button .b2 |Test Button 2| background 3  width 50
+    button .b3 LINKLabel |Test Link Label Button 3| width 50
+    button .b4 toggle |Test Toggle Button 4| width 50 call |!this.activeButton5()|
+    button .b5 toggle |Test Toggle Button 5| background 3  width 50
+    member .but5Active is boolean 
+exit
+
+define method .ButtonGadget() 
+    !this.but5Active = true
+endmethod
+
+define method .activeButton5() 
+    if (!this.but5Active) then
+        !this.but5Active = false
+        !this.b5.active = false
+    else
+        !this.but5Active = true
+        !this.b5.active = true
+    endif
+endmethod
+```
+
+### Text Entry Gadget
+
+Text Entry Gadget's Possible Implimentations:
+- 
+```
+setup form !!TextEntryGadget
+    !this.formTitle = |Text Entry Gadget Form|
+    text .t1 |Text String| width 50 is string
+    Halign Left
+    path down
+    text .t2 |String| width 50 is string
+    text .t3 |Numbers| width 50 is real format !!realfmt
+    text .t4 |Round Numbers| width 50 is real format !!integerfmt
+    text .t5 |Passwords| width 50 NOE is string
+    text .t6 |Non Editable| width 50 is string
+exit
+
+define method .TextEntryGadget()
+    !this.t6.val = |Fixed Text|
+    !this.t6.setEditable(False)
 endmethod
 ```
 
