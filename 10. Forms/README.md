@@ -164,7 +164,7 @@ endmethod
 ```
 setup form !!ParagraphGadget
     !this.formTitle = |Paragraph Gadget Form|
-    para .p1 text |Text Paragraph| width 50
+    para .p1 text |Sample Text Paragraph| width 50
     Halign Left
     path down
     para .p2 background 3 text |Text Paragraph| width 50
