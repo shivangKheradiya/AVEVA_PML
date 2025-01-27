@@ -132,7 +132,6 @@ setup form !!GadGetUsingPath resize
     Button .bu4 width 10 height 4
 exit
 
--- Constructuor calls when Form Loaded and must match the name of the form or file
 define method .GadGetUsingPath() 
     
 endmethod
@@ -140,4 +139,21 @@ endmethod
 
 ## Docking and Anchoring
 
+if anyone of the following things are found in the syntaxgraph of the Gadget then, it's possible to use the functionality.
 
+- Anchoring ( <fganch> ) : Positions the edge of the eadget relative to the corrosponding edge of it's container.
+- Dock ( <fgdock> ) : Fills the available space in a certain direction. `dock fill` will fill the full space of parent container. 
+
+```
+setup form !!DockAnchor
+    frame .f1 dock fill
+        list .l1 anchor all width 10 height 5
+        Button .b1 anchor r+b at xmax.l1 - 0.5 - 2 * size  ymax.l1 + 0.25
+        Button .b2 anchor r+b at xmax.l1 - size  ymax.l1 + 0.25
+    exit
+exit
+
+define method .DockAnchor() 
+    
+endmethod
+```
