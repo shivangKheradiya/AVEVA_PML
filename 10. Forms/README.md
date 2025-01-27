@@ -1,34 +1,34 @@
 # 10. Forms
 
-- [Basic Understanding And Syntax](basic-understanding-and-syntax)
-- [Syntax of Form & Callbacks]
-- [Gedget Positioning Using Paths]
-- [Docking and Anchoring]
-- [Gadgets Implimentation]
-    - [TEXTPANE Gadget](textpane-implimentation)
-    - [Text Entry Gadget]
-    - [Paragraph Gadget]
-    - [Button Gadget]
-    - [Radio Gadget]
-    - [Toggle Gadget]
-    - [Slider Gadget]
-    - [Option Gadget]
-    - [List Gadget]
-    - [Line Gadget]
-    - [Frame Gadget]
-    - [Alpha View Gadget]
-    - [Area View Gadget]
-    - [Plot View Gadget]
-    - [3D Graphics/ Canvas/ Volume View]
-    - [Alert Gadget]
-    - [Progress Bar Gadget]
-- [TOOLTIP & pixmap]
-- [Menu Gadget]
-    - [bar menu]
-    - [popup menu]
-    - [Adding menu]
-- [FileBrowser]
-- [TreeView]
+- [Basic Understanding And Syntax](##basic-understanding-and-syntax)
+- [Syntax of Form & Callbacks](##syntax-of-form-&-callbacks)
+- [Gedget Positioning Using Paths](##gedget-positioning-using-paths)
+- [Docking and Anchoring](##docking-and-anchoring)
+- [Gadgets Implimentation](##gadgets-implimentation)
+    - [TEXTPANE Gadget](###textpane-implimentation)
+    - [Text Entry Gadget](###text-entry-gadget)
+    - [Paragraph Gadget](###paragraph-gadget)
+    - [Button Gadget](###button-gadget)
+    - [Radio Gadget](###radio-gadget)
+    - [Toggle Gadget](###toggle-gadget)
+    - [Slider Gadget](###slider-gadget)
+    - [Option Gadget](###option-gadget)
+    - [List Gadget](###list-gadget)
+    - [Line Gadget](###line-gadget)
+    - [Frame Gadget](###frame-gadget)
+    - [Alpha View Gadget](###alpha-view-gadget)
+    - [Area View Gadget](###area-view-gadget)
+    - [Plot View Gadget](###plot-view-gadget)
+    - [3D Graphics/ Canvas/ Volume View](###3d-graphics/-canvas/-volume-view)
+    - [Alert Gadget](###alert-gadget)
+    - [Progress Bar Gadget](###progress-bar-gadget)
+- [Tooltip & pixmap](##tooltip-&-pixmap)
+- [Menu Gadget](##menu-gadget)
+    - [bar menu](###bar-menu)
+    - [popup menu](###popup-menu)
+    - [Adding menu](###adding-menu)
+- [FileBrowser](##file-browser)
+- [TreeView](##tree-view)
 
 ## Basic Understanding And Syntax
 
