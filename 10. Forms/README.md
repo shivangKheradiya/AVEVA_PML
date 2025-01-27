@@ -221,7 +221,12 @@ endmethod
 ### Text Entry Gadget
 
 Text Entry Gadget's Possible Implimentations:
-- 
+- String Values
+- Numeric Values
+- Numeric Round Values
+- Password Case Values
+- Non Editable Values
+  
 ```
 setup form !!TextEntryGadget
     !this.formTitle = |Text Entry Gadget Form|
