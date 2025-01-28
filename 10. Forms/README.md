@@ -372,10 +372,62 @@ define method .QueryValue( !listNumber is string )
 endmethod
 ```
 
+Key Points to Remember,
+- List can be Single Select Multiple Select
+- List can have Multiple Columns
+- Rtext and Dtext Will react based on the type of the list defination
+
 ### Frame Gadget
 
+```
+setup form !!FrameGadget resize
+    !this.formTitle = |Frame Gadget Form| 
+    frame .f1 TABSET anchor ALL wid 15 hei 5 
+        frame .fToolBar |Normal Tab| dock fill
+            para .p1 text |Put any required Gadgets|
+        exit
+        frame .fPanel |Panel| dock fill
+            button .b1 |Show Hide Panel| at 0 0 call |!this.foldUnfold()| 
+            frame .fPanel1 panel |Panel Frame| at x0 ymax.b1 dock fill
+                frame .fPanelFoldup foldup |Foldup 1| at x0 ymin.fPanel1 + 1 width 10 height 5
+                   
+                exit
+            exit
+        exit
+        frame .fDock |Dock| dock fill
+            frame .fDockAll |Dock All| dock fill  
+                frame .fDockRight |Dock Right| dock RIGHT width.fPanelFoldup + 10 
+                    frame .fDockLeft |Dock Bottom| dock b hei 4 
+                    exit
+                exit 
+            exit
+        exit
+    exit
+exit
 
-### [Radio Gadget](#radio-gadget)
+define method .FrameGadget() 
+
+endmethod
+
+define method .foldUnfold() 
+
+    if (!this.fPanelFoldup.expanded) then
+        !this.fPanelFoldup.expanded = false
+    else
+        !this.fPanelFoldup.expanded = true
+    endif
+
+endmethod
+```
+
+Key Points to Remember,
+- Frame can be any one of the type `TABSET`, `FOLDUP`, `PANEL`, `TOOLBAR`(when defined for the main window)
+- Frame must be ending with `exit`
+- If any error occured within frame, type `exit` untill error is available (In other words, Exit the frame & form). 
+
+### Radio Gadget
+
+
 ### [Toggle Gadget](#toggle-gadget)
 ### [Slider Gadget](#slider-gadget)
 ### [Line Gadget](#line-gadget)
