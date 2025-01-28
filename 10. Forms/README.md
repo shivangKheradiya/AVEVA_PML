@@ -246,13 +246,149 @@ endmethod
 ```
 
 ### Textpane Gadget
-```
 
+Textpane is used to write some code or notes within PML Form. It stores the Data in form of an Array.
+
+```
 setup form !!TextpaneGadget
-    
+    !this.formTitle = |Textpane Gadget Form|
+    text .t1 call |!this.append()| width 30 is STRING
+    button .but1 linklabel |Append Line| at xmax.t1 + 0.5 y 0 call |!this.appendLine()| wid 10
+    textpane .tp1 |Text Pad| at x 0 y1 wid 45 hei 7
 exit
 
-define method .DockAnchor() 
-    
+define method .TextpaneGadget() 
+    !text = object array()
+    !this.tp1.val = !text 
+endmethod
+
+define method .appendLine() 
+    !text = !this.tp1.val
+    !text.append( !this.t1.val )
+    !this.tp1.val = !text
+endmethod
+
+define method .append() 
+    $p Append method is triggered
 endmethod
 ```
+
+### Option Gadget
+
+```
+setup form !!OptionsGadget resize
+  !this.formTitle = |Options Gadget Form| 
+  path down 
+  option .op1 |Normal - Dtext Only    | width 10
+  combo  .op2 |Combo  - Dtext & Rtext | width 10
+  option .op3 |Pixmap - Dtext Gif     | pixmap width 100 height 50
+exit
+
+define method .OptionsGadget() 
+  !dtext = |Red Yellow| 
+  !this.op1.dtext = !dtext.split() 
+  !this.op2.dtext = !dtext.split() 
+  do !n index !this.op1.dtext 
+    !files[!n] = |/c:\PathForGif\| & !n & |.gif| 
+  enddo
+  !this.op3.dtext = !files
+  !this.op3.rtext = !dtext.split() 
+  !this.op2.callback = |!this.setOpt(| 
+endmethod
+
+define method .setOpt(!gad is gadget, !event is STRING)
+  q var !event
+  q var !gad
+  if !event.eq('SELECT') then
+    !this.op3.val = !this.op2.val.real()
+  endif
+endmethod
+```
+
+Key Points to Remember,
+- `q var !!OptionExample.opt3.selection()` Gives the Rtext Value
+- Option Gadget can have `PIXMAPS` or `STRINGS`
+- Options Can have Open Callbacks e.g. Text Auto Completion Functionality
+- Name of Text is optional
+
+### List Gadget
+
+```
+setup form !!ListGadget resize
+    !this.formTitle = |List Gadget Form| 
+    list .l1 || |Single Array List   | call |!this.QueryValue( '1' )| SINGLE ZEROSEL width 15 height 5
+    path down
+    list .l2 |Multi Select List   | call |!this.QueryValue( '2' )| MULTI width 15 height 5
+    list .l3 |List Appending      | call |!this.QueryValue( '3' )| width 15 height 5
+    list .l4 |Multi column List   | call |!this.QueryValue( '4' )| width 15 height 5
+exit
+
+define method .ListGadget() 
+    !this.SetL1Member()
+    !this.SetL2Member()
+    !this.SetL3Member()
+    !this.SetL4Member()
+endmethod
+
+define method .SetL1Member()
+    !dtext[1] = |d1|
+    !rtext[1] = |r1|
+    !dtext[2] = |d2|
+    !rtext[2] = |r2|
+    !this.l1.dtext = !dtext
+    !this.l1.rtext = !rtext
+    !heading = |Heading|
+    !this.l1.setHeadings(!Heading.split())
+endmethod
+
+define method .SetL2Member()
+    !dtext[1] = |d1|
+    !dtext[2] = |d2|
+    !this.l2.dtext = !dtext
+endmethod
+
+define method .SetL3Member()
+    !dtext[1] = |Appendable List|
+    !this.l3.dtext = !dtext
+    !this.l3.add(|New Item 1 Added|)
+endmethod
+
+define method .SetL4Member()
+    !heading = |Heading_1 Heading_2|
+    !this.l4.setHeadings(!heading.split())
+    !row[1] = |Data 1 1|
+    !row[2] = |Data 1 1|
+    !rowData[1] = !row
+    !row[1] = |Data 2 1|
+    !row[2] = |Data 2 1|
+    !rowData[2] = !row
+    !this.l4.setRows(!rowData)
+endmethod
+
+define method .QueryValue( !listNumber is string ) 
+    !dtext = !this.l$!<listNumber>.selection('Dtext') 
+    !rtext = !this.l$!<listNumber>.selection('Rtext') 
+    $p Selected Dtext = $!<dtext> Rtext = $!<rtext>
+endmethod
+```
+
+### Frame Gadget
+
+
+### [Radio Gadget](#radio-gadget)
+### [Toggle Gadget](#toggle-gadget)
+### [Slider Gadget](#slider-gadget)
+### [Line Gadget](#line-gadget)
+### [Alpha View Gadget](#alpha-view-gadget)
+### [Area View Gadget](#area-view-gadget)
+### [Plot View Gadget](#plot-view-gadget)
+### [3D Graphics/ Canvas/ Volume View](#3d-graphics/-canvas/-volume-view)
+### [Alert Gadget](#alert-gadget)
+### [Progress Bar Gadget](#progress-bar-gadget)
+## [Tooltip & pixmap](##tooltip-&-pixmap)
+## [Menu Gadget](##menu-gadget)
+### [bar menu](#bar-menu)
+### [popup menu](#popup-menu)
+### [Adding menu](#adding-menu)
+## [FileBrowser](##file-browser)
+## [TreeView](##tree-view)
