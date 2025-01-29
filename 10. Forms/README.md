@@ -16,10 +16,7 @@
     - [List Gadget](#list-gadget)
     - [Line Gadget](#line-gadget)
     - [Frame Gadget](#frame-gadget)
-    - [Alpha View Gadget](#alpha-view-gadget)
-    - [Area View Gadget](#area-view-gadget)
-    - [Plot View Gadget](#plot-view-gadget)
-    - [3D Graphics/ Canvas/ Volume View](#3d-graphics/-canvas/-volume-view)
+    - [View Gadget](#view-gadget)
     - [Alert Gadget](#alert-gadget)
     - [Progress Bar Gadget](#progress-bar-gadget)
 - [Tooltip & pixmap](##tooltip-&-pixmap)
@@ -111,9 +108,9 @@ Follow below mentioned step to test the form,
 
 Gadget Path are used with some main keywords 
  
- - PATH : Right / Left / Up / Down
- - HDIST or VDIST : number
- - HALIGN : Left / Right / Centre or VALIGN : Top/ Bottom / Centre.
+ - `PATH` : Right / Left / Up / Down
+ - `HDIST` or VDIST : number
+ - `HALIGN` : Left / Right / Centre or VALIGN : Top/ Bottom / Centre.
 
 ```
 setup form !!GadGetUsingPath resize
@@ -189,6 +186,7 @@ Button's Possible Implimentations:
 - Button with/ without Background
 - Button as LinkLabel
 - Toggle Button with/ without Background
+- Pixmap Button
 
 ```
 setup form !!ButtonGadget
@@ -200,11 +198,13 @@ setup form !!ButtonGadget
     button .b3 LINKLabel |Test Link Label Button 3| width 50
     button .b4 toggle |Test Toggle Button 4| width 50 call |!this.activeButton5()|
     button .b5 toggle |Test Toggle Button 5| background 3  width 50
+    button .b6 pixmap
     member .but5Active is boolean 
 exit
 
 define method .ButtonGadget() 
     !this.but5Active = true
+    !this.b6.addPixmap(!!pml.getPathName('discard.png'))
 endmethod
 
 define method .activeButton5() 
@@ -427,14 +427,229 @@ Key Points to Remember,
 
 ### Radio Gadget
 
+```
+setup form !!RadioGadget resize
+    !this.formTitle = |Radio Gadget Form|
+    rgroup .rgp |RGroup| FRAME horizontal callback |!this.rGroupCb(!this.rgp)|
+        add tag |TagA| select |A|
+        add tag |TagB| select |B|
+        add tag |TagC| select |C|
+    exit
+    path down
+    frame .rToggleFrame |RToggle| 
+      rToggle .tagA |TagA| states || |A| 
+      rToggle .tagB |TagB| call |!this.getOnValue(!this.tagB)| states |SBOFF| |B| 
+      rToggle .tagC |TagC| states || |C|
+      button .bu1 |B1|
+    exit 
+exit
 
-### [Toggle Gadget](#toggle-gadget)
-### [Slider Gadget](#slider-gadget)
-### [Line Gadget](#line-gadget)
-### [Alpha View Gadget](#alpha-view-gadget)
-### [Area View Gadget](#area-view-gadget)
-### [Plot View Gadget](#plot-view-gadget)
-### [3D Graphics/ Canvas/ Volume View](#3d-graphics/-canvas/-volume-view)
+define method .RadioGadget() 
+    !this.rToggleFrame.callback = |!this.rtgFrame(!this.rToggleFrame)|
+endmethod
+
+define method .rGroupCb(!gad is GADGET) 
+    q var !gad.selection()
+endmethod
+
+define method .rtgFrame(!gad is GADGET)
+    -- Ony For Rtoggle, From the Frame, it's possible to get the Rtoggle child number
+    !rtog = !gad.rtoggle(!gad.val) 
+    $p OnValue
+    q var !rtog.onvalue
+    $p OffValue
+    q var !rtog.offvalue 
+endmethod
+
+define method .getOnValue(!gad is GADGET)
+    $p OnValue
+    q var !gad.onvalue
+    $p OffValue
+    q var !gad.offvalue 
+endmethod
+```
+
+Key Points to Remember,
+- Radio Buttons are can be implimented in 2 ways `rgroup` and `rtoggle`.
+- `rgroup` will may depricate in future. and It can be arranged horizontally or vertically
+- `rtoggle` is used within frame only. and it can be placed within frame anywhere.
+- Ony For `Rtoggle`, From the `frame`, it's possible to get the Rtoggle child based on number
+
+### Toggle Gadget
+
+```
+setup form !!TogglesGadget resize
+    !this.formTitle = |Toggles Gadget Form| 
+    path right 
+    toggle .toggleA tagwid 15 |Normal Toggle| call |!this.stateChange(!this.toggleA)| 
+    toggle .toggleB tagwid 15 |Change States| call |!this.stateChange(!this.toggleB)| states |N| |Y| 
+    numeric .numToggle |Numeric Toggle| callback |!this.NumToggleChange(| at xmin.toggleA ymax.toggleB range 0 10 step 1 NDP 0 wid 3 
+exit
+
+define method .TogglesGadget()
+
+endmethod
+
+define method .stateChange(!gad is GADGET) 
+    if ( !gad.val ) then 
+        q var !gad.onvalue 
+    else 
+        q var !gad.offvalue 
+    endif 
+endmethod
+
+define method .NumToggleChange(!gad is GADGET, !event is STRING)
+    q var !gad.val
+    q var !event
+endmethod
+```
+
+Key Points to Remember,
+- Toggle can be any one of 
+    - `toggle` (Checkbox with/ without state)
+    - `NumericInput`
+
+### Line Gadget
+
+Lines are used to generate partition within the form.
+
+```
+setup form !!LineGadget resize
+    !this.formTitle = |Line Gadget Form| 
+    line .lineA horizontal wid 15 hei 1
+    path right
+    line .lineB vertical wid 1 hei 5
+    line .lineC horizontal wid 15 hei 1
+exit
+
+define method .LineGadget()
+
+endmethod
+```
+
+### Slider Gadget
+
+```
+setup form !!SliderGadget 
+    !this.formTitle = |Slider Gadget Form| 
+    slider .slider anchor L+R horizontal range 0 100 step 5 val 50 width 30 
+    member .sliderValue is REAL 
+exit
+
+define method .SliderGadget()
+    !this.slider.callback = |!this.sliderMove(|
+endmethod
+
+define method .SliderMove(!gad is GADGET, !event is STRING)
+    q var !gad.val
+    q var !event
+endmethod
+```
+
+Obsurve the command window to see the outcome of the slider movement. 
+
+### View Gadget
+
+View Gadget has following types of implimentations,
+- Alpha View Gadget - 1D
+- Area View Gadget - 2D Draw
+- Plot View Gadget - 2D Plot File
+- Volume View Gadget - 3D
+
+```
+setup form !!AlphaViewGadget
+    !this.formTitle = |Alpha View Gadget Form|
+    view .input AT X 0 Y 0 ALPHA
+        height 15 width 60
+        channel REQUESTS
+        channel COMMANDS
+    exit
+exit
+```
+
+```
+setup form !!PlotViewGadget resize
+    !this.formTitle = |Plot View Gadget Form| 
+    view .plot plot anchor all width 41 hei 15 
+        -- CURS NOCURSOR 
+    exit
+exit 
+ 
+define method .PlotViewGadget() 
+    !this.plot.borders = true 
+    !this.plot.add(|/%PMLUI%\plots\equip\base-for-pumpset-drg.plt|) 
+endmethod
+```
+
+Select any graphical element e.g. PIPE, EQUI and open below form,
+
+```
+setup form !!VolumeViewGadget resize
+    !this.formTitle = |Volume View Gadget Form|
+    !this.initcall = |!this.init()|
+    !this.firstShownCall = |!this.firstShownCall()|
+    !this.quitcall = |!this.quit()|
+    view .VolumeView Volume width 41 hei 15
+        width 46 height 15 
+        limits auto 
+        isometric 3
+    exit
+    path down
+    button .buAdd |Add CE| call |!this.setDrawlist(1, false)| width 15
+    button .buRemove |Rem CE| call |!this.setDrawlist(2, false)| width 15
+    button .buClear |Clear| call |!this.setDrawlist(0, true)| width 15
+    member .drawlist is REAL
+exit 
+ 
+define method .VolumeViewGadget()
+    !this.VolumeView.borders = true
+    !this.drawlist = !!gphDrawlists.createDrawList()
+endmethod
+
+define method .setDrawlist(!flag is REAL, !reset is BOOLEAN) 
+    !drawlist = !!gphDrawlists.drawlist(!this.drawlist)
+    -- Clear the drawlist is a reset is requested 
+    if !reset then 
+        !drawlist.removeall() 
+    endif
+
+    -- Add/Remove CE 
+    if !flag.eq(1) then 
+        !drawlist.add(!!CE) 
+    elseif !flag.eq(2) then 
+        !drawlist.remove(!!CE) 
+    endif 
+    !this.walkDrawlist() 
+endmethod
+
+define method .walkDrawlist() 
+    !drawlist = !!gphDrawlists.drawlist(!this.drawlist) 
+    -- derive a volume object from the members of the drawlist 
+    !volume = object volume(!drawlist.members()) 
+    !limits[1]    = !volume.from.east 
+    !limits[2]    = !volume.to.east 
+    !limits[3]    = !volume.from.north 
+    !limits[4]    = !volume.to.north 
+    !limits[5]    = !volume.from.up 
+    !limits[6]    = !volume.to.up 
+    !this.volumeView.limits = !limits 
+endmethod 
+
+define method .init()
+    !this.setDrawlist(1, TRUE)
+endmethod
+
+define method .firstShownCall()
+    !!gphViews.add(!this.volumeView)
+    !!gphDrawlists.attachView(!this.drawlist, !this.volumeView) 
+endmethod
+
+define method .close() 
+    !!gphDrawlists.detachView(!this.volumeView) 
+    !!gphDrawlists.deleteDrawlist(!this.drawlist) 
+endmethod
+```
+
 ### [Alert Gadget](#alert-gadget)
 ### [Progress Bar Gadget](#progress-bar-gadget)
 ## [Tooltip & pixmap](##tooltip-&-pixmap)
