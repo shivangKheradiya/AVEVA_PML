@@ -18,14 +18,14 @@
     - [Frame Gadget](#frame-gadget)
     - [View Gadget](#view-gadget)
     - [Tooltip](##tooltip)
-- [Alert Gadget](#alert-gadget)
-- [Progress Bar Gadget](#progress-bar-gadget)
-- [Menu Gadget](##menu-gadget)
-    - [bar menu](#bar-menu)
-    - [popup menu](#popup-menu)
-    - [Adding menu](#adding-menu)
-- [FileBrowser](##file-browser)
-- [TreeView](##tree-view)
+- [Alert Object](#alert-gadget)
+- [Progress Bar Object](#progress-bar-gadget)
+- [Menu Gadget](#menu-gadget)
+    - [Bar Menu](#bar-menu)
+    - [Popup Menu](#popup-menu)
+- [File Browser Object](#file-browser-object)
+- [Event Driven Graphics(EDG)](#event-driven-graphics-(edg))
+- [Tree View](#tree-view)
 
 ## Basic Understanding And Syntax
 
@@ -667,7 +667,7 @@ define method .TooltipGadget()
 endmethod
 ```
 
-## Alert Gadget
+## Alert Object
 
 Types of Alert Object,
 - Alert with No Return Value
@@ -714,7 +714,7 @@ define method .ShowAlert( !type is string)
 endmethod
 ```
 
-## Progress Bar Gadget
+## Progress Bar Object
 
 Progress bar is part of the `!!fmsys` object.
 
@@ -760,8 +760,191 @@ Key Point's to remember,
 
 ## Menu Gadget
 
-### [bar menu](#bar-menu)
-### [popup menu](#popup-menu)
-### [Adding menu](#adding-menu)
-## [FileBrowser](##file-browser)
-## [TreeView](##tree-view)
+Menu provide options to users and possible to use in a form.
+
+Menu Object will have 3 arguments,
+1. Action to perform: `Callback` , `FORM`, `SEPERATOR`, `MENU`
+2. Display Text
+3. PML Syntax to Perform Action
+
+### Bar Menu
+
+Menu bar will be in the top of the form,
+
+```
+setup form !!BarMenuGadget resize
+    !this.formTitle = |Bar Menu Gadget Form|
+
+    bar
+    !this.bar.add(|File|,|FileMenu|)
+    !this.bar.add(|Sub Menu|,|ViewMenu|)
+    !this.bar.add(|Help|,|HelpMenu|)
+
+    !FileMenuObj = !this.newmenu(|FileMenu|)
+    !FileMenuObj.add(|SEPARATOR|)
+    !FileMenuObj.add(|FORM|,|Radio Gadget Form|, |RadioGadget|)
+    !FileMenuObj.add(|CALLBACK|,|Q ATT|,|q att|)
+
+    !ViewMenuObj = !this.newmenu(|ViewMenu|)
+    !ViewMenuObj.add(|SEPARATOR|)
+    !ViewMenuObj.add(|MENU|,|Sub Menu|,|SubMenu|)
+    !ViewMenuObj.add(|SEPARATOR|)
+    
+    !SubMenuObj = !this.newmenu(|SubMenu|)
+    !SubMenuObj.add(|SEPARATOR|)
+    !SubMenuObj.add(|CALLBACK|,|Q CE|,|Q CE|)
+
+    !HelpMenuObj = !this.newmenu(|HelpMenu|)
+    !HelpMenuObj.add(|SEPARATOR|)
+    !HelpMenuObj.add(|CALLBACK|,|About|,|!this.OpenAbout()|)
+exit
+ 
+define method .BarMenuGadget()
+
+endmethod
+
+define method .OpenAbout()
+    $p About is opened
+endmethod
+```
+
+Key Point's to remember,
+- Bar menu is applicable only for non dockable forms
+
+### Popup Menu
+
+Popup Menu can be added in the list view.
+
+```
+setup form !!PopupMenuGadget resize
+    !this.formTitle = |Popup Menu Gadget Form|
+    !this.initCall = |!this.init()|
+    list .lst |All Zones| callback |!this.SetupMenu()| width 100
+
+    !MenuObj = !this.newmenu(|ZoneMenu|)
+    !MenuObj.add(|SEPARATOR|)
+    !MenuObj.add(|CALLBACK|,|Q ATT|,|!this.ShowData('attributes()')|)
+    !MenuObj.add(|CALLBACK|,|Q Mem|,|!this.ShowData('mem')|)
+exit
+ 
+define method .BarMenuGadget()
+
+endmethod
+
+define method .init()
+    var !allZones collect all zone for ce
+    var !zoneNames eval FLNN for all from !allZones 
+    !this.lst.dtext = !zoneNames 
+    !this.lst.rtext = !allZones
+endmethod
+
+define method .SetupMenu()
+    !this.lst.setPopup(!this.ZoneMenu)
+endmethod
+
+define method .ShowData( !event is string)
+    !selectedElement = !this.lst.selection(|RTEXT|)
+    !dbref = object dbref(!selectedElement)
+    q var !dbref.$!event
+endmethod
+```
+
+Key Point's to remember,
+- `<ListGadget>.setPopup(!this.<MenuName>)` Method is used to setup popup menu.
+
+## File Browser Object
+
+```
+setup form !!FileBrowserForm resize
+    !this.formTitle = |File Browser Form|
+    button .open |Open| linklabel callback |!this.OpenFileChangeText()| width 10
+    path right
+    hdist 1
+    text .txtp || width 50 is string 
+exit
+ 
+define method .FileBrowserForm()
+
+endmethod
+
+define method .OpenFileChangeText()
+    !!fileBrowser('c:\','*','Open File', true ,'!!FileBrowserForm.ChangeText()')
+endmethod
+
+define method .ChangeText()
+    q var !!fileBrowser.file
+    !this.txtp.val = !!fileBrowser.file.string()
+endmethod
+```
+
+Syntax for File Browser,
+```
+!!fileBrowser(!directory is STRING, !seedFile is STRING, !title is STRING, !existFlag is BOOLEAN, !callback is STRING)
+```
+Where,
+- `!directory` : Origin directory
+- `!seedFile` : Seed Filename
+- `!title` : Form title string
+- `!existFlag` : True if file must exist
+- `!callback` : Callback assigned to OK button
+
+Detailed implimentation for the file browser is done using `.Net`/ `PMLNet` callable library. To know the syntax for the same get the function file path using `!!pml.getpathname('filebrowser.pmlfnc')`.
+
+## Event Driven Graphics (EDG)
+
+EDG is used to interact with 3D view/ Volume view. The functionality allows user to select elements form the 3D Canvas/ View.
+
+```
+setup form !!EDGForm resize
+    !this.formTitle = |EDG Form|
+    !this.initCall = |!this.init()|
+    button .BuAdd |Add Equipment| linklabel callback |!this.GetEdgData()| width 10
+    path down
+    list .lst |All Equipments| callback |!this.SetupMenu()| width 50
+    member .selection is array
+exit
+ 
+define method .EDGForm()
+    
+endmethod
+
+define method .init()
+    !emptyData = object array()
+    !this.lst.val = !emptyData
+endmethod
+
+define method .SetData()
+    !existingData = !!EDGForm.lst.rtext
+    do !val values !!EDGForm.selection
+        q var !val
+        !name = name of equi of $!val
+        q var !name
+        !existingData.append( !name )
+    enddo
+    !!EDGForm.lst.dtext = !existingData
+    !!EDGForm.lst.rtext = !existingData
+endmethod
+
+define method .GetEdgData()
+  !packet = object EDGPACKET()
+  !packet.elementPick(|Pick Equipments <esc> to add to list|)
+  !packet.description = |Select Equipment|
+  !packet.action = |!!EDGForm.StoreSelection(!this.return[1].item)|
+  !packet.close = |!!EDGForm.SetData()|
+  !!EDGCntrl.add(!packet)
+endmethod
+
+define method .StoreSelection( !pickedElement is dbref)
+    $p Piecked Element
+    q var !pickedElement
+    !!EDGForm.selection.clear()
+    !index = !pickedElement.ahlist.findfirst(|EQUI|)
+    if (not unset(!index)) then
+        !!EDGForm.selection.append(!pickedElement)
+    endif
+    !!EDGForm.lst.refresh()
+endmethod
+```
+
+## Tree View
+
