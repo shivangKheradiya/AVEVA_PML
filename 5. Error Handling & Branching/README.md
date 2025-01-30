@@ -117,4 +117,4 @@ Output
 4 is printed outside loop
 ```
 
-In Above Exaple GoLable is triggred withing if condition and it's breaking the do look. GoLable statement can be used with individual Loop code & If else block as well.  
+In Above Example GoLable is triggred within if condition and it's breaking the do look. GoLable statement can be used with individual Loop code & If else block as well.

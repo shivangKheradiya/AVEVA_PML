@@ -418,3 +418,15 @@ Output:
    [87]  <STRING> ':PFIAExcess'
    [88]  <STRING> 'MEMBERS'
 ```
+
+### 2.6.5 Numbers as Variable
+
+This practice is not commonly used but it's possible to store some value within numerics using below syntax. Use Case is typically limited to 119 number.
+
+```
+var 1 name
+var 2 Position
+
+q var 1
+q var 2
+```
