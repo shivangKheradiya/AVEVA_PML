@@ -17,9 +17,9 @@
     - [Line Gadget](#line-gadget)
     - [Frame Gadget](#frame-gadget)
     - [View Gadget](#view-gadget)
-    - [Alert Gadget](#alert-gadget)
-    - [Progress Bar Gadget](#progress-bar-gadget)
-- [Tooltip & pixmap](##tooltip-&-pixmap)
+    - [Tooltip](##tooltip)
+- [Alert Gadget](#alert-gadget)
+- [Progress Bar Gadget](#progress-bar-gadget)
 - [Menu Gadget](##menu-gadget)
     - [bar menu](#bar-menu)
     - [popup menu](#popup-menu)
@@ -606,8 +606,9 @@ define method .VolumeViewGadget()
     !this.drawlist = !!gphDrawlists.createDrawList()
 endmethod
 
-define method .setDrawlist(!flag is REAL, !reset is BOOLEAN) 
+define method .setDrawlist(!flag is REAL, !reset is BOOLEAN)
     !drawlist = !!gphDrawlists.drawlist(!this.drawlist)
+
     -- Clear the drawlist is a reset is requested 
     if !reset then 
         !drawlist.removeall() 
@@ -618,7 +619,8 @@ define method .setDrawlist(!flag is REAL, !reset is BOOLEAN)
         !drawlist.add(!!CE) 
     elseif !flag.eq(2) then 
         !drawlist.remove(!!CE) 
-    endif 
+    endif
+
     !this.walkDrawlist() 
 endmethod
 
@@ -650,10 +652,114 @@ define method .close()
 endmethod
 ```
 
-### [Alert Gadget](#alert-gadget)
-### [Progress Bar Gadget](#progress-bar-gadget)
-## [Tooltip & pixmap](##tooltip-&-pixmap)
-## [Menu Gadget](##menu-gadget)
+### Tooltip
+
+When The mouse curser is hover on the Gadget, it will give some extra information about the functionality called as tooltip.
+
+```
+setup form !!TooltipGadget resize
+    !this.formTitle = |Tooltip Object Form|
+    button .buToolTip |Has Tool Tip| width 15 tooltip |This button represents the Tooltip functionality.|
+exit
+
+define method .TooltipGadget()
+
+endmethod
+```
+
+## Alert Gadget
+
+Types of Alert Object,
+- Alert with No Return Value
+    - Error
+    - Message
+    - Warning
+- Alert with Return Value
+    - Confirm
+    - Question
+    - Input
+
+```
+setup form !!AlertGadget resize
+    !this.formTitle = |Alert Object Form|
+    button .buError |Error| call |!this.ShowAlert('Error')| width 15
+    path down
+    button .buMessage |Message| call |!this.ShowAlert('Message')| width 15
+    button .buWarning |Warning| call |!this.ShowAlert('Warning')| width 15
+    button .buConfirm |Confirm| call |!this.ShowAlert('Confirm')| width 15
+    button .buQuestion |Question| call |!this.ShowAlert('Question')| width 15
+    button .buInput |Input| call |!this.ShowAlert('Input')| width 15
+exit 
+ 
+define method .AlertGadget()
+
+endmethod
+
+define method .ShowAlert( !type is string)
+
+    !isReturnType = !type inset ( |Confirm|, |Question|, |Input|)
+
+    if(!isReturnType) then
+        if (!type.eq(|Input|)) then
+            !answer = !!alert.$!<type>( |Type of the Alert is | + !type + | !!! |, |100|)
+            q var !answer
+        else
+            !answer = !!alert.$!<type>( |Type of the Alert is | + !type + | !!! |)
+            q var !answer
+        endif
+    else
+        !!alert.$!<type>( |Type of the Alert is | + !type + | !!! |)
+    endif
+
+endmethod
+```
+
+## Progress Bar Gadget
+
+Progress bar is part of the `!!fmsys` object.
+
+```
+setup form !!ProgressBarGadget resize
+    !this.formTitle = |Progress Bar Gadget Form|
+    button .buStart |Start| call |!this.Start()| width 15
+    path down
+    button .buStop |Stop| call |!this.Stop()| width 15
+    button .buReset |Reset| call |!this.Reset()| width 15
+    member .progress is real
+exit
+ 
+define method .ProgressBarGadget()
+    !!fmsys.setInterrupt(!!ProgressBarGadget.buStop)
+endmethod
+
+define method .Start()
+    do !n from 1 to 10000 
+        !percent = !n / 100 
+        -- Check if the method has been interrupted.  Break
+        if (!!FMSYS.interrupt()) then 
+          !!alert.message(!n & | loops were completed - | & !percent.string(|D1|) & |%|) 
+          break
+        endif 
+        !!FMSYS.setProgress(!percent) 
+    enddo
+endmethod
+
+define method .Stop()
+    $p Progress bar is stoped
+endmethod
+
+define method .Reset()
+    !!fmsys.setProgress(0)
+endmethod
+```
+
+Key Point's to remember,
+- Progress for the bar is set using `!!fmsys.setProgress( <real> )` method.
+- `!!fmsys` can be inturupt using `!!fmsys.interrupt()` method. 
+- To use `!!fmsys.interrupt()` method, `!!fmsys.setInturrupt(<Gadget>)` method must be implimented.
+
+## Menu Gadget
+
 ### [bar menu](#bar-menu)
 ### [popup menu](#popup-menu)
 ### [Adding menu](#adding-menu)
