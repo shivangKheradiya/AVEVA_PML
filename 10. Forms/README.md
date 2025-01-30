@@ -946,5 +946,126 @@ define method .StoreSelection( !pickedElement is dbref)
 endmethod
 ```
 
-## Tree View
+## Net Grid Control
 
+Net grid Control is a grid(Extensive form of List) and has more featured functionality called from AVEVA's PMLNet Callable library. 
+
+```
+setup form !!PMLNetGridForm size 100 20 VarChars dialog resizable
+    !this.formtitle             = 'PMLNet Grid Form'
+    !this.initCall              = |!this.init()| 
+
+    using namespace 'Aveva.Pdms.Presentation'
+    container .dataGrid nobox PMLNETCONTROL 'NET' anchor top + left + right at xmin ymin width 100 height 19
+
+    using namespace 'Aveva.Core.Presentation'
+    member .dataControl         is NETGRIDCONTROL
+
+    member .headings            is ARRAY
+    member .rowSet              is ARRAY
+    member .fullPathName        is STRING
+exit
+
+define method .PMLNetGridForm()
+    !menu                       = !this.newMenu('dataPopUp')
+    !menu.add('callback', 'Export', |!this.export()|, 'SELECT')
+
+    using namespace 'Aveva.Core.Presentation'
+    !this.dataControl           = object NETGRIDCONTROL()
+
+    -- Add .net control to the container
+    !this.dataGrid.control      = !this.dataControl.handle()
+
+    -- Add PML event handlers to .net controls
+    !this.dataControl.addEventHandler('onPopup', !this, 'dataPopUp')
+
+    -- Set grid visual attributes
+    !this.dataControl.columnExcelFilter(true)
+    !this.dataControl.outlookGroupStyle(false)
+    !this.dataControl.fixedRows(false)
+    -- !this.dataControl.gridHeight(1000.0)
+    !this.dataControl.editableGrid(false)
+    !this.dataControl.singleRowSelection(false)
+    !this.dataControl.fixedHeaders(false)
+    !this.dataControl.headerSort(true)
+    !this.dataControl.columnSummaries(false)
+endmethod
+
+define method .init()
+    !allEqui = !!collectAllFor(|EQUI|, || , !!CE)
+    !headings[1] = |RefNo|
+    !headings[2] = |Name|
+    !headings[3] = |Description|
+    !this.headings = !headings
+    !rowSet = object Array()
+    do !equi values !allEqui
+        !row[1] = !equi.refno.string()
+        !row[2] = !equi.name
+        !row[3] = !equi.desc
+        !rowSet.append(!row)
+    enddo
+    !this.rowSet = !rowSet
+    !this.displayGrid()
+endmethod
+
+define method .displayGrid()
+  using namespace 'Aveva.Core.Presentation'
+  !this.dataControl.bindToDataSource( object NETDATASOURCE('PMLNet_Grid', !this.headings, !this.rowSet, '^RefNo') )
+endmethod
+
+define method .dataPopUp(!array is ARRAY)
+    -- Show the pop-up
+    !this.dataGrid.popup        = !this.dataPopUp
+    !this.dataGrid.showPopup(!array[0], !array[1])
+endmethod
+
+define method .export()
+    !this.fullPathName          = |C:\DB\Sample.xlsx|
+    !this.dataControl.savegridtoexcel( !this.fullPathName )
+    !!alert.message(|Files is saved at | + !this.fullPathName )
+endmethod
+```
+
+## Tree View Control
+
+Tree View is also more featured functionality called from AVEVA's PMLNet Callable library.
+
+```
+import 'ExplorerAddin' 
+handle any 
+endhandle
+
+setup form !!PMLNetTreeForm resizable
+    !this.formtitle             = 'PMLNet Tree Form'
+
+    using namespace 'Aveva.Pdms.Presentation' 
+    container .treeExplorer PMLNETCONTROL 'Tree Explorer' width 30 height 30 
+
+    using namespace 'Aveva.Core.Presentation'
+    member .treeControl      is PMLEXPLORERCONTROL
+
+    menu .treePopup popup
+    !this.treePopup.add( 'CALLBACK', 'Q Name', '!this.QName()' ) 
+
+    member .element is DBREF 
+exit
+
+define method .PMLNetTreeForm()
+    using namespace 'Aveva.Core.Presentation'
+    !this.treeControl = object PMLExplorerControl()
+    !this.treeExplorer.control = !this.treeControl.handle()
+    !this.treeControl.addeventhandler('OnPopup', !this, 'rightClickExplorer') 
+    !this.treeControl.initialise('/*','')
+endmethod
+
+define method .rightClickExplorer(!data is ARRAY)
+    q var !data
+    !this.treeExplorer.popup = !this.treePopup
+    !this.treeExplorer.showPopup(!data[0], !data[1])
+    !this.element = !data[2].dbref()
+endmethod
+
+define method .QName()
+    q var !this.element.name
+endmethod
+```
